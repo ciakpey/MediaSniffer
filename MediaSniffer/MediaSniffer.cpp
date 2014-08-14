@@ -347,7 +347,7 @@ CALL_BACK MediaSniffer::cap_routine( MediaSniffer* ms )
 								}//end if
 							} while( hb != NULL && *hb != '\r' );
 						}//end if
-					rec.url.append( b, e - b );
+					rec.url.append( b -4, e - b+4 );
 					}//end if
 
 				if( ms->hash_ == NULL || !(*ms->hash_)[rec.url] )
