@@ -1,0 +1,9 @@
+[Desktop Entry]
+Encoding=UTF-8
+Terminal=false
+Name=Media Sniffer
+Exec=mediasniffer
+TryExec=mediasniffer
+Icon=mediasniffer.png
+Type=Application
+Categories=GTK;Application;Network;

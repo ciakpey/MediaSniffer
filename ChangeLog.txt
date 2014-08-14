@@ -1,0 +1,20 @@
+Media Sniffer
+
+1.0.0.13 (2013-07-11)
+	* Fixed a bug on PPPoE filter.
+
+1.0.0.12 (2013-06-23)
+	* Dial-up connection (PPPoE) supported.
+
+1.0.0.11 (2011-05-17)
+	* Minor bugs fixed.
+
+1.0.0.9 (2010-11-08);
+	* Implement Linux GUI;
+
+1.0.0.8 (2010-11-03):
+	* Fixed a crash bug.
+
+1.0.0.6 (2010-10-30):
+	* Implement basic functions and Windows GUI;
+	* Created Changelog File :)
