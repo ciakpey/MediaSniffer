@@ -670,6 +670,7 @@ void MainDlg(void)
 	ms->set_show_rec( reinterpret_cast<ShowRec>(ShowRecord), gtk_builder_get_object( builder, ID_LISTST_SNIFF ) );
 
 	gtk_widget_show_all( win );
+	OnStart(win,builder);
 	gtk_main();
 
 	g_object_unref( ui_manager );
