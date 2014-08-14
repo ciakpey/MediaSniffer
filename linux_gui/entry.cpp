@@ -274,6 +274,7 @@ static const gchar kMainDlg_Ui[] =
 #define ACT_COPY "copy"
 #define ACT_COPYUA "copyua"
 #define ACT_SELALL "selall"
+#define ACT_WATCH "watch"
 
 static const gchar kPopup_Menu_Ui[] =
 "<ui>"
@@ -281,6 +282,7 @@ static const gchar kPopup_Menu_Ui[] =
 		"<menuitem action=\""ACT_COPY"\"/>"
 		"<menuitem action=\""ACT_COPYUA"\"/>"
 		"<menuitem action=\""ACT_SELALL"\"/>"
+		"<menuitem action=\""ACT_WATCH"\"/>"
 	"</popup>"
 "</ui>";
 
@@ -311,6 +313,43 @@ void CopySelURL( GtkTreeView* treeview )
 	g_list_foreach( list, (GFunc)gtk_tree_path_free, NULL );
 	g_list_free( list );
 }//end CopySelURL
+
+
+void LaunchSelVlc( GtkTreeView* treeview )
+{
+	GtkTreeModel *model;
+	GList *list, *i;
+	GtkTreeIter iter;
+	string str;
+	GValue val = {0};
+
+	list = gtk_tree_selection_get_selected_rows( gtk_tree_view_get_selection( treeview ), &model );
+	
+	str.clear();
+	for( i = g_list_first( list ); i != NULL; i = g_list_next( i ) )
+		{
+		if( gtk_tree_model_get_iter( model, &iter, (GtkTreePath*)i->data ) )
+			{
+			gtk_tree_model_get_value( model, &iter, 0, &val );
+			str.append( g_value_get_string( &val ) );
+			g_value_unset( &val );
+			str.push_back( '\n' );
+			}//end if
+		}//end for
+
+		char buffer[1000]="su man -c vlc\\ ";
+
+	system(strcat(buffer, str.c_str()));
+
+	g_list_foreach( list, (GFunc)gtk_tree_path_free, NULL );
+	g_list_free( list );
+}//end LaunchSelVlc
+
+void OnWatch( GtkAction* action, GtkBuilder* builder )
+{
+	LaunchSelVlc( GTK_TREE_VIEW(gtk_builder_get_object( builder, ID_TREE_SNIFF )) );
+}//end OnWatch
+
 
 void OnCopy( GtkAction* action, GtkBuilder* builder )
 {
@@ -351,7 +390,8 @@ static const GtkActionEntry kMenuitem_Action[] =
 {
 	{ ACT_COPY, NULL, "_Copy Selected URL(s)\tCtrl+C", NULL, NULL, G_CALLBACK(OnCopy) },
 	{ ACT_COPYUA, NULL, "Copy _User Agent", NULL, NULL, G_CALLBACK(OnCopyUA) },
-	{ ACT_SELALL, NULL, "_Select All\t\tCtrl+A", NULL, NULL, G_CALLBACK(OnSelAll) }
+	{ ACT_SELALL, NULL, "_Select All\t\tCtrl+A", NULL, NULL, G_CALLBACK(OnSelAll) },
+	{ ACT_WATCH, NULL, "_Watch this URL with vlc", NULL, NULL, G_CALLBACK(OnWatch) }
 };
 
 static const gchar *kFilterURLSample[] =
